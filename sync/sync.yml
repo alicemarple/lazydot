@@ -1,11 +1,14 @@
 - name: "nvim"
   version: "0.1.0"
   confdir: "~/.config/nvim"
+  url: "http://github.com"
 
 - name: "tmux"
   version: "0.1.0"
   confdir: "~/.config/tmux"
+  url: "http://github.com"
 
 - name: "starship"
   version: "0.0.3"
   confdir: "~/.config/starship"
+  url: "http://github.com"

@@ -12,7 +12,9 @@ import (
 
 var (
 	packageName string
-	rootCmd     = &cobra.Command{
+	BaseURL     = "https://github.com/"
+	// BaseURL = "https://github.com/alicemarple/dotfiles/releases/download"
+	rootCmd = &cobra.Command{
 		Use:   "lazydot",
 		Short: "A brief description of your application",
 		Long: `A longer description that spans multiple lines and likely contains
@@ -38,20 +40,25 @@ func init() {
 	rootCmd.Flags().StringVarP(&packageName, "sync", "S", "zsh", "Sync")
 	rootCmd.Flags().StringVarP(&packageName, "remove", "R", "zsh", "Remove")
 	rootCmd.Flags().BoolP("query", "Q", false, "Query")
+	rootCmd.Flags().BoolP("update", "Y", false, "Update")
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 func runFun(cmd *cobra.Command) {
+	BaseURL = fmt.Sprintf("%s/", BaseURL)
 	isSync := cmd.Flags().Changed("sync")
 	isRemove := cmd.Flags().Changed("remove")
 	isQuery := cmd.Flags().Changed("query")
+	isUpdate := cmd.Flags().Changed("update")
 
 	if isSync {
-		readYml("/mnt/e/projects/golang/lazydot/sync/sync.yml", packageName)
+		sync("/mnt/e/projects/golang/lazydot/sync/sync.yml", packageName)
 	} else if isRemove {
-		fmt.Printf("remove the package %s \n", packageName)
+		remove(packageName)
 	} else if isQuery {
-		fmt.Println("query the database")
+		query()
+	} else if isUpdate {
+		update()
 	} else {
 		fmt.Println("Give the proper flag")
 	}
