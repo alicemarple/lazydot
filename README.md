@@ -4,14 +4,14 @@ Pacman like dot file manager
 
 ## 🎦 Image
 
-Image
+![lazydot_sq](https://res.cloudinary.com/dljmvvlte/image/upload/v1750706616/lazydot_sQ_lxflho.png)
 
 ## 🍔 Installation
 
 Install my-project with go
 
-```bash
-go get github.com/alice/lazydot
+```
+Download it from release
 ```
 
 ## 🍁 Usage
@@ -41,10 +41,16 @@ lazydot -R dotfile_name
 - Remove dotfile
 
 ```bash
-lazydot -s
+lazydot -s dotfile_name
 ```
 
 - Search the dotfile on remote
+
+```bash
+lazydot -s all
+```
+
+- List all dotfiles from remote
 
 ## 🌸 Documentation
 
