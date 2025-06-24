@@ -5,6 +5,8 @@ import (
 	"io"
 	"net/http"
 	"os"
+
+	"github.com/alicemarple/lazydot/internal/constants"
 )
 
 // download using the newURL
@@ -33,6 +35,7 @@ func DownloadFromURL(url, filename string) error {
 		return fmt.Errorf("error while downloading: %w", err)
 	}
 
-	fmt.Printf("File saved to %s\n", filename)
+	fmt.Println(constants.InfoStyle.Render(fmt.Sprint("File saved to:")), filename)
 	return nil
 }
+
