@@ -1,7 +1,38 @@
 package commmand
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+
+	"github.com/alicemarple/lazydot/internal/constants"
+	"github.com/alicemarple/lazydot/pkg/model"
+	"github.com/alicemarple/lazydot/pkg/util/file"
+	"gopkg.in/yaml.v2"
+)
 
 func Remove(packageName string) {
-	fmt.Printf("remove the package %s \n", packageName)
+	var tempmd []model.MetaData
+
+	md := file.ReadYml[model.MetaData](constants.LocalFile)
+	for _, v := range md {
+		if v.Name != packageName {
+			tempmd = append(tempmd, v)
+		}
+	}
+
+	// 3️⃣ Marshal the new list
+	data, err := yaml.Marshal(tempmd)
+	if err != nil {
+		fmt.Printf("error marshalling data: %v\n", err)
+		return
+	}
+
+	// 4️⃣ Write to the same file
+	err = os.WriteFile(constants.LocalFile, data, 0644)
+	if err != nil {
+		fmt.Printf("error writing file: %v\n", err)
+		return
+	}
+
+	fmt.Println(constants.SuccessStyle.Render(fmt.Sprint("Done! : Package removed and saved.")))
 }

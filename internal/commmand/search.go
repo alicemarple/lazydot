@@ -13,13 +13,11 @@ import (
 func Search(packageName string) {
 	dt := file.ReadYml[model.MetaData](constants.SyncFile)
 
-	// ✅ Case 1: All packages
 	if packageName == "all" {
 		printSearchTable(dt)
 		return
 	}
 
-	// ✅ Case 2: Single match
 	for _, v := range dt {
 		if v.Name == packageName {
 			printSearchTable([]model.MetaData{v})
@@ -27,11 +25,10 @@ func Search(packageName string) {
 		}
 	}
 
-	// ✅ Not found
 	fmt.Printf("no package found with name: %s\n", packageName)
 }
 
-func printSearchTable(dt []model.MetaData) {
+func printSearchTable[T model.PrintData](dt []T) {
 	// Styles
 	var (
 		purple    = lipgloss.Color("99")
@@ -62,7 +59,7 @@ func printSearchTable(dt []model.MetaData) {
 
 	// Add rows
 	for _, v := range dt {
-		t.Row(v.Name, v.Version, v.ConfDir)
+		t.Row(v.GetPName(), v.GetPVersion(), v.GetPConfDir())
 	}
 
 	// Print the table
