@@ -37,27 +37,21 @@ func Setup(filename string) {
 
 	// setup urls
 	constants.BaseURL = fmt.Sprintf("%s/%s/%s/releases/download", constants.BaseURL, cfg.Name, cfg.Project)
-	constants.SyncURl = fmt.Sprintf("%s/%s/%s/releases", constants.SyncURl, cfg.Name, cfg.Project)
 
 	// setup sync.yml
 	isthere := file.FileExists(constants.SyncFile)
-	istherelocal := file.FileExists(constants.LoaclFile)
+	istherelocal := file.FileExists(constants.LocalFile)
 
 	if !istherelocal {
-		fmt.Println("Local file doesn't exist, creating it...")
-		file.CreateFile(constants.LoaclFile)
+		file.CreateFile(constants.LocalFile)
 	}
 	if !isthere {
-		fmt.Println("Sync file doesn't exist, creating it...")
 		file.CreateFile(constants.SyncFile)
 		web.GetSyncData()
 	} else {
 		isempty := file.IsEmpty(constants.SyncFile)
 		if isempty {
-			fmt.Println("File is empty, doing the needed work...")
 			web.GetSyncData()
-		} else {
-			fmt.Println("File exists and is NOT empty, skipping...")
 		}
 	}
 }
