@@ -4,7 +4,9 @@ import (
 	"fmt"
 
 	"github.com/alicemarple/lazydot/internal/commmand"
-	"github.com/alicemarple/lazydot/pkg/util/setup"
+	"github.com/alicemarple/lazydot/internal/constants"
+
+	// "github.com/alicemarple/lazydot/pkg/util/setup"
 	"github.com/spf13/cobra"
 )
 
@@ -16,8 +18,8 @@ func FLagSetup(cmd *cobra.Command, packageName string) {
 	isSearch := cmd.Flags().Changed("search")
 
 	if isSync {
-		setup.Setup("/mnt/e/projects/golang/lazydot/config/config.yml")
-		commmand.Sync("/mnt/e/projects/golang/lazydot/sync/sync.yml", packageName)
+		// setup.Setup(constants.ConfigFile)
+		commmand.Sync(constants.SyncFile, packageName)
 	} else if isRemove {
 		commmand.Remove(packageName)
 	} else if isQuery {
