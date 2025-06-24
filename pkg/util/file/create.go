@@ -3,6 +3,8 @@ package file
 import (
 	"fmt"
 	"os"
+
+	"github.com/alicemarple/lazydot/internal/constants"
 )
 
 func CreateFile(filename string) error {
@@ -12,6 +14,6 @@ func CreateFile(filename string) error {
 	}
 	defer file.Close()
 
-	fmt.Println("File created successfully:", filename)
+	fmt.Println(constants.SuccessStyle.Render(fmt.Sprint("File created successfully:")), filename)
 	return nil
 }

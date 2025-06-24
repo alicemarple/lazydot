@@ -9,7 +9,6 @@ import (
 func FileExists(filename string) bool {
 	_, err := os.Stat(filename)
 	if os.IsNotExist(err) {
-		fmt.Println("File does NOT exist.")
 		return false
 	} else if err != nil {
 		fmt.Printf("Error checking file: %v\n", err)
@@ -18,3 +17,4 @@ func FileExists(filename string) bool {
 		return true
 	}
 }
+

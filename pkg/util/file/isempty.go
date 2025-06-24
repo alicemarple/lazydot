@@ -19,7 +19,7 @@ func IsEmpty(filename string) bool {
 	if n == 0 {
 		return true
 	} else {
-		fmt.Println("file is not empty")
 		return false
 	}
 }
+
