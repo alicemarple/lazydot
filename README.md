@@ -8,11 +8,13 @@ Pacman like dot file manager
 
 ## 🍔 Installation
 
-Install my-project with go
+```
+git clone https://github.com/alicemarple/lazydot.git
+cd lazydot
+go build -o lazydot main.go
+```
 
-```
-Download it from release
-```
+You can download it from releases and add it to the path for better use.
 
 ## 🍁 Usage
 
@@ -29,10 +31,16 @@ lazydot -y
 - Update the remote dotfiles metadata
 
 ```bash
-lazydot -Q
+lazydot -Q package_name
 ```
 
-- Query the local database of metadata
+- Query the local database for package_name metadata
+
+```bash
+lazydot -Q all
+```
+
+- Query the local database for all package metadata
 
 ```bash
 lazydot -R dotfile_name
@@ -54,8 +62,14 @@ lazydot -s all
 
 ## 🌸 Documentation
 
-Main files :
+- Manage local.yml and sync.yml for better operations.
 
-- local.yml - for download dotfiles metadata
-- sync.yml - for remote dotfiles metadata
-- config.yml - for config
+- Commands: sync, update, query, search, remove.
+
+- Follows XDG conventions:
+
+  - ~/.config/lazydot/config.yml (user settings)
+
+  - ~/.local/share/lazydot/ (state files)
+
+  - ~/.cache/lazydot/pkg/ (temporary downloads)
