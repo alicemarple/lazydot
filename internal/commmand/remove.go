@@ -7,6 +7,7 @@ import (
 	"github.com/alicemarple/lazydot/internal/constants"
 	"github.com/alicemarple/lazydot/pkg/model"
 	"github.com/alicemarple/lazydot/pkg/util/file"
+	"github.com/alicemarple/lazydot/pkg/util/tables"
 	"gopkg.in/yaml.v2"
 )
 
@@ -17,6 +18,8 @@ func Remove(packageName string) {
 	for _, v := range md {
 		if v.Name != packageName {
 			tempmd = append(tempmd, v)
+		} else {
+			tables.PrintTable([]model.MetaData{v})
 		}
 	}
 
@@ -34,5 +37,7 @@ func Remove(packageName string) {
 		return
 	}
 
-	fmt.Println(constants.SuccessStyle.Render(fmt.Sprint("Done! : Package removed and saved.")))
+	removeScript := "/mnt/e/projects/golang/lazydot/scripts/remove.sh"
+	Runscript(packageName, removeScript)
+	fmt.Println(constants.SuccessStyle.Render(fmt.Sprint("Done! : Package removed.")))
 }

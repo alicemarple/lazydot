@@ -8,9 +8,8 @@ import (
 	"github.com/alicemarple/lazydot/internal/constants"
 	"github.com/alicemarple/lazydot/pkg/model"
 	"github.com/alicemarple/lazydot/pkg/util/file"
+	"github.com/alicemarple/lazydot/pkg/util/tables"
 	"github.com/alicemarple/lazydot/pkg/util/web"
-	"github.com/charmbracelet/lipgloss"
-	"github.com/charmbracelet/lipgloss/table"
 )
 
 // TODO: Add functionality to extract the .tar.gz and put it config dir
@@ -23,7 +22,7 @@ func Sync(filename string, packageName string) {
 	for _, v := range md {
 		if packageName == v.Name {
 			found = true
-			printSyncTable([]model.MetaData{v})
+			tables.PrintTable([]model.MetaData{v})
 			fmt.Printf("\n \n")
 
 			// check package info from sync.yml
@@ -52,7 +51,8 @@ func Sync(filename string, packageName string) {
 			// extract file
 			// put to its config dir
 			fmt.Println(constants.SuccessStyle.Render(fmt.Sprint("Extracting and Placing the files : ")))
-			Runscript(packageName)
+			script := "/mnt/e/projects/golang/lazydot/scripts/place.sh"
+			Runscript(packageName, script)
 		}
 	}
 	if !found {
@@ -69,7 +69,6 @@ func makeExecutable(scriptPath string) error {
 }
 
 func runScript(scriptPath string, packageName string) error {
-	// cmd := exec.Command(scriptPath)
 	cmd := exec.Command("/bin/sh", scriptPath, packageName)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
@@ -80,9 +79,7 @@ func runScript(scriptPath string, packageName string) error {
 	return nil
 }
 
-func Runscript(packageName string) {
-	script := "/mnt/e/projects/golang/lazydot/scripts/place.sh"
-
+func Runscript(packageName string, script string) {
 	// 1️⃣ Make script executable
 	if err := makeExecutable(script); err != nil {
 		fmt.Println("Error making script executable:", err)
@@ -94,42 +91,4 @@ func Runscript(packageName string) {
 		fmt.Println("Error running script:", err)
 		return
 	}
-}
-
-func printSyncTable(dt []model.MetaData) {
-	// Styles
-	var (
-		purple    = lipgloss.Color("99")
-		gray      = lipgloss.Color("245")
-		lightGray = lipgloss.Color("241")
-
-		headerStyle  = lipgloss.NewStyle().Foreground(purple).Bold(true).Align(lipgloss.Center)
-		cellStyle    = lipgloss.NewStyle().Padding(0, 1).Width(23)
-		oddRowStyle  = cellStyle.Foreground(gray)
-		evenRowStyle = cellStyle.Foreground(lightGray)
-	)
-
-	// Build table
-	t := table.New().
-		Border(lipgloss.NormalBorder()).
-		BorderStyle(lipgloss.NewStyle().Foreground(purple)).
-		StyleFunc(func(row, col int) lipgloss.Style {
-			switch {
-			case row == table.HeaderRow:
-				return headerStyle
-			case row%2 == 0:
-				return evenRowStyle
-			default:
-				return oddRowStyle
-			}
-		}).
-		Headers("Name", "Version", "Destination")
-
-	// Add rows
-	for _, v := range dt {
-		t.Row(v.Name, v.Version, v.ConfDir)
-	}
-
-	// Print the table
-	fmt.Println(t)
 }

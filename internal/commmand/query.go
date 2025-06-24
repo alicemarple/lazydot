@@ -26,6 +26,4 @@ func Query(packageName string) {
 	}
 
 	fmt.Printf("no package found with name: %s\n", packageName)
-
-	// tables.PrintTable(dt)
 }
